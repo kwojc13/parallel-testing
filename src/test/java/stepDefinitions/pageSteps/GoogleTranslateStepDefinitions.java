@@ -2,14 +2,16 @@ package stepDefinitions.pageSteps;
 
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
+import io.cucumber.java8.En;
+import pageObjects.Pages;
+import stepDefinitions.sharedObjects.Context;
 
-public class GoogleTranslateStepDefinitions {
+public class GoogleTranslateStepDefinitions implements En {
+    public GoogleTranslateStepDefinitions(Context context, Pages pages) {
 
-    @When("I translate {string} from {string} to {string}")
-    public void iTranslateFromTo(String stringToTranslate, String languageToTranslate, String languageTranslated) {
-    }
+        When("^I translate \"([^\"]*)\" from \"([^\"]*)\" to \"([^\"]*)\"$", (String stringToTranslate, String langBasic, String langTranslated) -> {
+            pages.googleTranslatePage.translateFromTo();
+        });
 
-    @Then("The {string} translation of {string} to {string} is displayed")
-    public void theTranslationIsDisplayed(String languageTranslated, String stringToTranslate, String stringTranslated) {
     }
 }

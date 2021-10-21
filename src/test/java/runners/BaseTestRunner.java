@@ -10,6 +10,6 @@ import org.junit.runner.RunWith;
         features = "classpath:features",
         glue = {"stepDefinitions"},
         publish = false,
-        tags = "@GoogleSearch")
+        tags = "@Test")
 public class BaseTestRunner {
 }
