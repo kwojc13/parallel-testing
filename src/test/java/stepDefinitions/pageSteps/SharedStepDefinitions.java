@@ -1,25 +1,29 @@
 package stepDefinitions.pageSteps;
 
+import com.codeborne.selenide.Selenide;
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import stepDefinitions.sharedObjects.Context;
 import io.cucumber.java8.*;
 
+import static com.codeborne.selenide.Selenide.$;
+
 public class SharedStepDefinitions implements En {
     public SharedStepDefinitions(Context context) {
 
         Given("^I go to the \"([^\"]*)\" page$", (String pageName) -> {
-            context.driver.get(pageName);
+            Selenide.open(pageName);
             //sleeps are not functional, i want to see the page for a while
-            Thread.sleep(1000);
+            Selenide.sleep(1000);
             if (pageName.equals("https://google.com")) {
-                WebElement consentButton = context.driver.findElement(By.xpath("//div[contains(text(), 'Zgadzam')]"));
+                SelenideElement consentButton = $(By.xpath("//div[contains(text(), 'Zgadzam')]"));
                 consentButton.click();
             } else {
-                WebElement consentButton = context.driver.findElement(By.xpath("//button//span[contains(text(), 'agree')]"));
+                SelenideElement consentButton = $(By.xpath("//button//span[contains(text(), 'agree')]"));
                 consentButton.click();
             }
-            Thread.sleep(3000);
+            Selenide.sleep(3000);
         });
 
     }

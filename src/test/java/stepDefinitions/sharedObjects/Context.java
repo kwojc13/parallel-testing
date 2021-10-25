@@ -1,5 +1,7 @@
 package stepDefinitions.sharedObjects;
 
+import com.codeborne.selenide.Configuration;
+import com.codeborne.selenide.WebDriverRunner;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;;
@@ -13,30 +15,21 @@ public class Context {
 
     public WebDriver driver;
 
-//    public Context() {
-//        setUpDriver();
-//    }
+    public Context() {
+        setUpDriver();
+    }
 
     @Before
     public void setUpDriver() {
-        System.setProperty("webdriver.chrome.driver","C:/chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().setSize(new Dimension(1295, 730));
+        System.setProperty("chromeoptions.args", "--no-sandbox,--verbose,--whitelisted-ips='',--disable-dev-shm-usage,--disable-gpu");
+        Configuration.headless = false;
+        Configuration.browserSize = "1920x1080";
+        Configuration.startMaximized = false;
     }
 
     @After
     public void tearDown(Scenario scenario) {
         System.out.println("kill the chrome!");
-        try {
-            if (scenario.isFailed()) {
-                byte[] screenshot =
-                        ((TakesScreenshot) driver)
-                                .getScreenshotAs(OutputType.BYTES);
-                scenario.attach(screenshot, "image/png", "The scenario " + scenario.getName() + " has failed.");
-            }
-        } finally {
-            driver.close();
-            driver.quit();
-        }
+        WebDriverRunner.closeWebDriver();
     }
 }
